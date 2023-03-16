@@ -1,24 +1,35 @@
 import React, { useState } from "react";
 
 const ControlledInput = () => {
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [cellulare, setCellulare] = useState("");
-  const [persone, setPersone] = useState([]);
+  const [persona, setPersona] = useState({
+    nome: "",
+    email: "",
+    cellulare: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (nome && email && cellulare) {
-      setPersone([
-        ...persone,
+    if (persona.nome && persona.email && persona.cellulare) {
+      setPersona([
+        ...persona,
         {
           id: new Date(Date.now()).getTime().toString(),
-          nome,
-          email,
-          cellulare,
+          ...persona,
         },
       ]);
+      setPersona({
+        nome: "",
+        email: "",
+        cellulare: "",
+      });
+    } else {
+      alert("Riempi il form");
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPersona({ ...persona, [name]: value });
   };
 
   return (
@@ -31,8 +42,8 @@ const ControlledInput = () => {
           id="nome"
           type="text"
           name="nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
+          value={persona.nome}
+          onChange={handleChange}
           className="form-control col-9"
         ></input>
       </div>
@@ -44,8 +55,8 @@ const ControlledInput = () => {
           id="email"
           type="email"
           name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={persona.email}
+          onChange={handleChange}
           className="form-control col-9"
         ></input>
       </div>
@@ -57,8 +68,8 @@ const ControlledInput = () => {
           id="email"
           type="tel"
           name="cellulare"
-          value={cellulare}
-          onChange={(e) => setCellulare(e.target.value)}
+          value={persona.cellulare}
+          onChange={handleChange}
           className="form-control col-9"
         ></input>
       </div>
